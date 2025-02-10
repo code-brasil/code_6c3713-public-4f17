@@ -5,23 +5,86 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Painel Administrativo</title>
-  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 text-gray-900">
-  <header class="bg-white shadow">
-    <div class="container mx-auto px-4 py-6">
+<body class="bg-gray-50 text-gray-900">
+  <header class="bg-gray-800 text-white py-6">
+    <div class="container mx-auto px-4">
       <h1 class="text-3xl font-bold">Painel Administrativo</h1>
     </div>
   </header>
   <main class="container mx-auto px-4 py-10">
-    <p class="mb-4">Aqui você poderá visualizar e gerenciar os leads e inscrições dos alunos.</p>
-    <!-- Espaço para a listagem de leads -->
-    <div class="bg-white p-4 rounded shadow">
-      <p>(Tabela de leads será implementada aqui)</p>
-    </div>
+    <!-- Seção de Usuários Cadastrados -->
+    <section class="mb-10">
+      <h2 class="text-2xl font-bold mb-4">Usuários Cadastrados</h2>
+      <div id="usersList" class="bg-white p-4 rounded shadow"></div>
+    </section>
+    
+    <!-- Seção para Cadastro de Cursos -->
+    <section>
+      <h2 class="text-2xl font-bold mb-4">Cadastrar Novo Curso</h2>
+      <form id="courseForm" class="bg-white p-6 rounded shadow" onsubmit="event.preventDefault(); submitCourse();">
+        <div class="mb-4">
+          <label for="title" class="block font-semibold mb-2">Título do Curso:</label>
+          <input type="text" id="title" class="w-full p-2 border rounded" placeholder="Título do curso" required>
+        </div>
+        <div class="mb-4">
+          <label for="description" class="block font-semibold mb-2">Descrição:</label>
+          <textarea id="description" class="w-full p-2 border rounded" placeholder="Descrição do curso" required></textarea>
+        </div>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Cadastrar Curso</button>
+      </form>
+      <div id="courseMessage" class="mt-4"></div>
+    </section>
   </main>
-  <footer class="container mx-auto px-4 py-6 text-center">
-    <a class="text-blue-600 hover:underline" href="index.html">Voltar para a Landing Page</a>
+  <footer class="bg-gray-800 text-white py-4 text-center">
+    <p>&copy; 2023 Painel Administrativo</p>
   </footer>
+
+  <script>
+    function loadUsers() {
+      fetch('https://api.greb.com.br/functions/code_6c3713/get_users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(response => response.json())
+      .then(data => {
+        const usersList = document.getElementById('usersList');
+        if(data.users && data.users.length > 0){
+          let html = '<ul class="list-disc pl-5">';
+          data.users.forEach(user => {
+            html += `<li>${user.name} - ${user.email}</li>`;
+          });
+          html += '</ul>';
+          usersList.innerHTML = html;
+        } else {
+          usersList.innerHTML = '<p>Nenhum usuário cadastrado.</p>';
+        }
+      })
+      .catch(error => {
+        console.error('Erro ao carregar usuários:', error);
+      });
+    }
+
+    function submitCourse() {
+      const title = document.getElementById('title').value;
+      const description = document.getElementById('description').value;
+      fetch('https://api.greb.com.br/functions/code_6c3713/create_course', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, description })
+      })
+      .then(response => response.json())
+      .then(result => {
+        document.getElementById('courseMessage').innerText = result.status || 'Curso cadastrado com sucesso!';
+        document.getElementById('courseForm').reset();
+      })
+      .catch(error => {
+        console.error('Erro ao cadastrar curso:', error);
+      });
+    }
+
+    window.onload = loadUsers;
+  </script>
 </body>
 </html>

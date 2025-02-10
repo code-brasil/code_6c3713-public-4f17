@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vídeos do Curso</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; }
+    .video-container iframe { position: absolute; top:0; left: 0; width: 100%; height: 100%; }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <header class="bg-blue-600 text-white py-4 px-6 flex justify-between items-center">
+    <h1 class="text-2xl">Vídeos do Curso</h1>
+    <a href="dashboard.html" class="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100">Voltar</a>
+  </header>
+  <main class="p-6">
+    <div id="videosList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </main>
+  
+  <script>
+    function getEmbedUrl(url) {
+      // Converte URL padrão do YouTube para embed. Ex: https://www.youtube.com/watch?v=ABC -> https://www.youtube.com/embed/ABC
+      if(url.includes('watch?v=')) {
+        return url.replace('watch?v=', 'embed/');
+      }
+      return url;
+    }
+
+    function loadVideos() {
+      fetch('https://api.greb.com.br/functions/code_6c3713/get_courses', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(response => response.json())
+      .then(data => {
+        const videosDiv = document.getElementById('videosList');
+        videosDiv.innerHTML = '';
+        if(data.courses && data.courses.length > 0){
+          data.courses.filter(course => course.status === 'disponivel').forEach(course => {
+            videosDiv.innerHTML += `
+              <div class="bg-white p-4 rounded shadow">
+                <h3 class="font-bold text-lg mb-2">${course.title}</h3>
+                <div class="video-container">
+                  <iframe src="${getEmbedUrl(course.video_url)}" frameborder="0" allowfullscreen></iframe>
+                </div>
+              </div>
+            `;
+          });
+        } else {
+          videosDiv.innerHTML = '<p>Nenhum vídeo disponível.</p>';
+        }
+      });
+    }
+
+    window.onload = loadVideos;
+  </script>
+</body>
+</html>

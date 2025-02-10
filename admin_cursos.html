@@ -1,60 +1,62 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang='pt-BR'>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
   <title>Admin - Cursos</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href='https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css' rel='stylesheet'>
 </head>
-<body class="bg-gray-100">
-  <header class="bg-gray-800 text-white py-4 px-6 flex justify-between items-center">
-    <h1 class="text-2xl">Gerenciar Cursos</h1>
-    <button onclick="openCourseModal()" class="bg-blue-500 px-4 py-2 rounded hover:bg-blue-600">Adicionar Curso</button>
+<body class='bg-gray-100'>
+  <header class='bg-gray-800 text-white flex justify-between items-center p-4'>
+    <h1 class='text-2xl'>Admin - Cursos</h1>
+    <button onclick='openCourseModal()' class='bg-blue-500 px-4 py-2 rounded hover:bg-blue-600'>Adicionar Curso</button>
   </header>
-  <main class="p-6">
-    <div class="overflow-x-auto">
-      <table class="min-w-full bg-white">
+  <main class='p-4'>
+    <div class='overflow-x-auto'>
+      <table class='min-w-full bg-white shadow rounded'>
         <thead>
-          <tr>
-            <th class="py-2 px-4 border-b">ID</th>
-            <th class="py-2 px-4 border-b">Título</th>
-            <th class="py-2 px-4 border-b">Descrição</th>
-            <th class="py-2 px-4 border-b">Video URL</th>
-            <th class="py-2 px-4 border-b">Status</th>
-            <th class="py-2 px-4 border-b">Ações</th>
+          <tr class='bg-gray-200 text-gray-600 uppercase text-sm'>
+            <th class='py-3 px-4'>ID</th>
+            <th class='py-3 px-4'>Título</th>
+            <th class='py-3 px-4'>Descrição</th>
+            <th class='py-3 px-4'>Video URL</th>
+            <th class='py-3 px-4'>Status</th>
+            <th class='py-3 px-4'>Ações</th>
           </tr>
         </thead>
-        <tbody id="coursesTableBody"></tbody>
+        <tbody id='coursesTableBody' class='text-gray-700 text-sm'>
+          <!-- Cursos listados aqui -->
+        </tbody>
       </table>
     </div>
   </main>
-
-  <!-- Modal de curso (criar/editar) -->
-  <div id="courseModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-    <div class="bg-white rounded p-6 w-full max-w-lg relative">
-      <h2 id="courseModalTitle" class="text-xl mb-4">Adicionar Curso</h2>
-      <form id="courseForm">
-        <input type="hidden" id="courseId">
-        <div class="mb-4">
-          <label class="block mb-1">Título:</label>
-          <input type="text" id="courseTitle" class="w-full border p-2 rounded" required>
+  
+  <!-- Modal de curso -->
+  <div id='courseModal' class='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden'>
+    <div class='bg-white rounded p-6 w-full max-w-lg'>
+      <h2 id='courseModalTitle' class='text-xl mb-4'>Cadastrar Curso</h2>
+      <form id='courseForm'>
+        <input type='hidden' id='courseId'>
+        <div class='mb-4'>
+          <label class='block mb-1'>Título:</label>
+          <input type='text' id='courseTitle' class='w-full border px-3 py-2 rounded' required>
         </div>
-        <div class="mb-4">
-          <label class="block mb-1">Descrição:</label>
-          <textarea id="courseDescription" class="w-full border p-2 rounded" required></textarea>
+        <div class='mb-4'>
+          <label class='block mb-1'>Descrição:</label>
+          <textarea id='courseDescription' class='w-full border px-3 py-2 rounded' required></textarea>
         </div>
-        <div class="mb-4">
-          <label class="block mb-1">Video URL (YouTube):</label>
-          <input type="text" id="courseVideoUrl" class="w-full border p-2 rounded" required>
+        <div class='mb-4'>
+          <label class='block mb-1'>Video URL (YouTube):</label>
+          <input type='text' id='courseVideoUrl' class='w-full border px-3 py-2 rounded' required>
         </div>
-        <div class="flex justify-end space-x-2">
-          <button type="button" onclick="closeCourseModal()" class="bg-gray-500 px-4 py-2 rounded text-white">Cancelar</button>
-          <button type="submit" class="bg-blue-500 px-4 py-2 rounded text-white">Salvar</button>
+        <div class='flex justify-end'>
+          <button type='button' onclick='closeCourseModal()' class='mr-2 bg-gray-500 px-4 py-2 rounded text-white'>Cancelar</button>
+          <button type='submit' class='bg-blue-500 px-4 py-2 rounded text-white'>Salvar</button>
         </div>
       </form>
     </div>
   </div>
-
+  
   <script>
     function loadCourses() {
       fetch('https://api.greb.com.br/functions/code_6c3713/get_courses', {
@@ -68,37 +70,37 @@
         if(data.courses && data.courses.length > 0){
           data.courses.forEach(course => {
             tbody.innerHTML += `
-              <tr>
-                <td class="py-2 px-4 border-b">${course.id}</td>
-                <td class="py-2 px-4 border-b">${course.title}</td>
-                <td class="py-2 px-4 border-b">${course.description}</td>
-                <td class="py-2 px-4 border-b">${course.video_url || '-'} </td>
-                <td class="py-2 px-4 border-b">${course.status || 'rascunho'}</td>
-                <td class="py-2 px-4 border-b">
-                  <button onclick="editCourse(${course.id}, '${course.title}', '${course.description}', '${course.video_url}', '${course.status}')" class="bg-green-500 px-2 py-1 rounded text-white">Editar</button>
-                  <button onclick="changeStatus(${course.id})" class="bg-yellow-500 px-2 py-1 rounded text-white ml-2">Mudar Status</button>
-                  <button onclick="deleteCourse(${course.id})" class="bg-red-500 px-2 py-1 rounded text-white ml-2">Deletar</button>
+              <tr class='border-b'>
+                <td class='py-2 px-4'>${course.id}</td>
+                <td class='py-2 px-4'>${course.title}</td>
+                <td class='py-2 px-4'>${course.description}</td>
+                <td class='py-2 px-4'>${course.video_url || '-'}</td>
+                <td class='py-2 px-4'>${course.status || 'rascunho'}</td>
+                <td class='py-2 px-4'>
+                  <button onclick="editCourse(${course.id}, '${course.title}', '${course.description}', '${course.video_url}', '${course.status}')" class='bg-green-500 px-2 py-1 rounded text-white'>Editar</button>
+                  <button onclick="toggleStatus(${course.id}, '${course.status}')" class='bg-yellow-500 px-2 py-1 rounded text-white ml-2'>Mudar Status</button>
+                  <button onclick='deleteCourse(${course.id})' class='bg-red-500 px-2 py-1 rounded text-white ml-2'>Deletar</button>
                 </td>
               </tr>
             ";
           });
         } else {
-          tbody.innerHTML = '<tr><td colspan="6" class="py-4 text-center">Nenhum curso cadastrado.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">Nenhum curso cadastrado.</td></tr>';
         }
       });
     }
-
+    
     function openCourseModal() {
       document.getElementById('courseForm').reset();
       document.getElementById('courseId').value = '';
-      document.getElementById('courseModalTitle').innerText = 'Adicionar Curso';
+      document.getElementById('courseModalTitle').innerText = 'Cadastrar Curso';
       document.getElementById('courseModal').classList.remove('hidden');
     }
-
+    
     function closeCourseModal() {
       document.getElementById('courseModal').classList.add('hidden');
     }
-
+    
     function editCourse(id, title, description, video_url, status) {
       document.getElementById('courseId').value = id;
       document.getElementById('courseTitle').value = title;
@@ -107,7 +109,7 @@
       document.getElementById('courseModalTitle').innerText = 'Editar Curso';
       document.getElementById('courseModal').classList.remove('hidden');
     }
-
+    
     document.getElementById('courseForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const id = document.getElementById('courseId').value;
@@ -125,27 +127,16 @@
         loadCourses();
       });
     });
-
-    function changeStatus(id) {
-      // Simples toggle: se curso for rascunho, muda para disponivel; senão, reverte para rascunho
-      fetch('https://api.greb.com.br/functions/code_6c3713/get_courses', {
+    
+    function toggleStatus(id, currentStatus) {
+      const newStatus = currentStatus === 'rascunho' ? 'disponivel' : 'rascunho';
+      fetch('https://api.greb.com.br/functions/code_6c3713/admin_update_course', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
-      })
-      .then(resp => resp.json())
-      .then(data => {
-        const course = data.courses.find(c => c.id == id);
-        if(course) {
-          const newStatus = (course.status === 'rascunho') ? 'disponivel' : 'rascunho';
-          fetch('https://api.greb.com.br/functions/code_6c3713/admin_update_course', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ course_id: id, data: { status: newStatus } })
-          }).then(() => loadCourses());
-        }
-      });
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ course_id: id, data: { status: newStatus } })
+      }).then(() => loadCourses());
     }
-
+    
     function deleteCourse(id) {
       if(confirm('Deseja realmente deletar este curso?')) {
         fetch('https://api.greb.com.br/functions/code_6c3713/admin_delete_course', {
@@ -155,7 +146,7 @@
         }).then(() => loadCourses());
       }
     }
-
+    
     window.onload = loadCourses;
   </script>
 </body>

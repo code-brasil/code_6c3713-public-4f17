@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Feed de Cursos</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <header class="bg-blue-600 text-white py-6">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <h1 class="font-bold text-xl">Bem-vindo ao Feed de Cursos</h1>
+      <button onclick="logout()" class="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100">Sair</button>
+    </div>
+  </header>
+  <main class="container mx-auto px-4 py-10">
+    <div id="greeting" class="mb-8 text-2xl font-semibold"></div>
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+      <h2 class="text-xl font-bold mb-4">Cursos Disponíveis</h2>
+      <p>Em breve mais cursos e conteúdos exclusivos aparecerão aqui!</p>
+    </div>
+  </main>
+
+  <script>
+    window.onload = function() {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (!user) {
+        window.location.href = 'connect.html';
+      } else {
+        document.getElementById('greeting').innerText = `Olá, ${user.name}!`;
+      }
+    };
+    
+    function logout() {
+      localStorage.removeItem('user');
+      window.location.href = 'connect.html';
+    }
+  </script>
+</body>
+</html>

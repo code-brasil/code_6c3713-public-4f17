@@ -8,15 +8,15 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-50">
-  <header class="bg-blue-600 text-white py-6">
+  <header class="bg-blue-600 text-white py-4">
     <div class="container mx-auto px-4 flex justify-between items-center">
-      <h1 class="font-bold text-xl">Bem-vindo ao Feed de Cursos</h1>
+      <h1 class="text-2xl font-bold">Bem-vindo ao Feed de Cursos</h1>
       <button onclick="logout()" class="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100">Sair</button>
     </div>
   </header>
-  <main class="container mx-auto px-4 py-10">
-    <div id="greeting" class="mb-8 text-2xl font-semibold"></div>
-    <section id="coursesSection">
+  <main class="container mx-auto px-4 py-6">
+    <div id="greeting" class="mb-6 text-2xl font-semibold"></div>
+    <section>
       <h2 class="text-xl font-bold mb-4">Cursos Disponíveis</h2>
       <div id="coursesList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </section>
@@ -51,7 +51,7 @@
         if(data.courses && data.courses.length > 0){
           data.courses.filter(course => course.status === 'disponivel').forEach(course => {
             coursesList.innerHTML += `
-              <div class="bg-white p-6 rounded shadow">
+              <div class="bg-white p-4 rounded shadow">
                 <h3 class="font-bold text-lg mb-2">${course.title}</h3>
                 <p class="text-gray-600 mb-4">${course.description}</p>
                 <a href="videos.html?course_id=${course.id}" class="text-blue-500 underline">Assistir Vídeo</a>
@@ -59,7 +59,7 @@
             `;
           });
         } else {
-          coursesList.innerHTML = '<p>Nenhum curso disponível no momento.</p>';
+          coursesList.innerHTML = '<p class="text-center">Nenhum curso disponível no momento.</p>';
         }
       })
       .catch(error => {

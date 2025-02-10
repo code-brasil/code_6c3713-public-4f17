@@ -21,7 +21,6 @@
   
   <script>
     function getEmbedUrl(url) {
-      // Converte URL padrão do YouTube para embed. Ex: https://www.youtube.com/watch?v=ABC -> https://www.youtube.com/embed/ABC
       if(url.includes('watch?v=')) {
         return url.replace('watch?v=', 'embed/');
       }
@@ -49,7 +48,7 @@
             `;
           });
         } else {
-          videosDiv.innerHTML = '<p>Nenhum vídeo disponível.</p>';
+          videosDiv.innerHTML = '<p class="text-center">Nenhum vídeo disponível.</p>';
         }
       });
     }

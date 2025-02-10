@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Usuários</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  <header class="bg-gray-800 text-white py-4 px-6 flex justify-between items-center">
+    <h1 class="text-2xl">Gerenciar Usuários</h1>
+    <button onclick="openUserModal()" class="bg-blue-500 px-4 py-2 rounded hover:bg-blue-600">Adicionar Usuário</button>
+  </header>
+  <main class="p-6">
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white">
+        <thead>
+          <tr>
+            <th class="py-2 px-4 border-b">ID</th>
+            <th class="py-2 px-4 border-b">Nome</th>
+            <th class="py-2 px-4 border-b">Email</th>
+            <th class="py-2 px-4 border-b">Ações</th>
+          </tr>
+        </thead>
+        <tbody id="usersTableBody"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Modal de usuário (criar/editar) -->
+  <div id="userModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white rounded p-6 w-full max-w-md relative">
+      <h2 id="modalTitle" class="text-xl mb-4">Adicionar Usuário</h2>
+      <form id="userForm">
+        <input type="hidden" id="userId">
+        <div class="mb-4">
+          <label class="block mb-1">Nome:</label>
+          <input type="text" id="userName" class="w-full border p-2 rounded" required>
+        </div>
+        <div class="mb-4">
+          <label class="block mb-1">Email:</label>
+          <input type="email" id="userEmail" class="w-full border p-2 rounded" required>
+        </div>
+        <div class="flex justify-end space-x-2">
+          <button type="button" onclick="closeUserModal()" class="bg-gray-500 px-4 py-2 rounded text-white">Cancelar</button>
+          <button type="submit" class="bg-blue-500 px-4 py-2 rounded text-white">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function loadUsers() {
+      fetch('https://api.greb.com.br/functions/code_6c3713/get_users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(response => response.json())
+      .then(data => {
+        const tbody = document.getElementById('usersTableBody');
+        tbody.innerHTML = '';
+        if(data.users && data.users.length > 0){
+          data.users.forEach(user => {
+            tbody.innerHTML += `
+              <tr>
+                <td class="py-2 px-4 border-b">${user.id}</td>
+                <td class="py-2 px-4 border-b">${user.name}</td>
+                <td class="py-2 px-4 border-b">${user.email}</td>
+                <td class="py-2 px-4 border-b">
+                  <button onclick="editUser(${user.id}, '${user.name}', '${user.email}')" class="bg-green-500 px-2 py-1 rounded text-white">Editar</button>
+                  <button onclick="deleteUser(${user.id})" class="bg-red-500 px-2 py-1 rounded text-white ml-2">Deletar</button>
+                </td>
+              </tr>
+            ";
+          });
+        } else {
+          tbody.innerHTML = '<tr><td colspan="4" class="py-4 text-center">Nenhum usuário cadastrado.</td></tr>';
+        }
+      });
+    }
+
+    function openUserModal() {
+      document.getElementById('userForm').reset();
+      document.getElementById('userId').value = '';
+      document.getElementById('modalTitle').innerText = 'Adicionar Usuário';
+      document.getElementById('userModal').classList.remove('hidden');
+    }
+
+    function closeUserModal() {
+      document.getElementById('userModal').classList.add('hidden');
+    }
+
+    function editUser(id, name, email) {
+      document.getElementById('userId').value = id;
+      document.getElementById('userName').value = name;
+      document.getElementById('userEmail').value = email;
+      document.getElementById('modalTitle').innerText = 'Editar Usuário';
+      document.getElementById('userModal').classList.remove('hidden');
+    }
+
+    document.getElementById('userForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const id = document.getElementById('userId').value;
+      const name = document.getElementById('userName').value;
+      const email = document.getElementById('userEmail').value;
+      const url = id ? 'https://api.greb.com.br/functions/code_6c3713/admin_update_user' : 'https://api.greb.com.br/functions/code_6c3713/create_user';
+      const payload = id ? { user_id: id, data: { name, email } } : { name, email };
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(() => {
+        closeUserModal();
+        loadUsers();
+      });
+    });
+
+    function deleteUser(id) {
+      if(confirm('Deseja realmente deletar este usuário?')) {
+        fetch('https://api.greb.com.br/functions/code_6c3713/admin_delete_user', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id: id })
+        }).then(() => loadUsers());
+      }
+    }
+
+    window.onload = loadUsers;
+  </script>
+</body>
+</html>

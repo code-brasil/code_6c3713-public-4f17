@@ -16,25 +16,55 @@
   </header>
   <main class="container mx-auto px-4 py-10">
     <div id="greeting" class="mb-8 text-2xl font-semibold"></div>
-    <section class="bg-white p-6 rounded-lg shadow-lg">
+    <section id="coursesSection">
       <h2 class="text-xl font-bold mb-4">Cursos Disponíveis</h2>
-      <p>Em breve, você terá acesso aos nossos cursos incríveis!</p>
+      <div id="coursesList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </section>
   </main>
   
   <script>
     window.onload = function() {
-      const user = JSON.parse(localStorage.getItem('user'));
+      const user = localStorage.getItem('user');
       if (!user) {
         window.location.href = 'connect.html';
       } else {
-        document.getElementById('greeting').innerText = `Olá, ${user.name}!`;
+        const parsedUser = JSON.parse(user);
+        document.getElementById('greeting').innerText = `Olá, ${parsedUser.name}!`;
+        loadCourses();
       }
     };
 
     function logout() {
       localStorage.removeItem('user');
       window.location.href = 'connect.html';
+    }
+
+    function loadCourses() {
+      fetch('https://api.greb.com.br/functions/code_6c3713/get_courses', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(response => response.json())
+      .then(data => {
+        const coursesList = document.getElementById('coursesList');
+        coursesList.innerHTML = '';
+        if(data.courses && data.courses.length > 0){
+          data.courses.filter(course => course.status === 'disponivel').forEach(course => {
+            coursesList.innerHTML += `
+              <div class="bg-white p-6 rounded shadow">
+                <h3 class="font-bold text-lg mb-2">${course.title}</h3>
+                <p class="text-gray-600 mb-4">${course.description}</p>
+                <a href="videos.html?course_id=${course.id}" class="text-blue-500 underline">Assistir Vídeo</a>
+              </div>
+            `;
+          });
+        } else {
+          coursesList.innerHTML = '<p>Nenhum curso disponível no momento.</p>';
+        }
+      })
+      .catch(error => {
+        console.error('Erro ao carregar cursos:', error);
+      });
     }
   </script>
 </body>

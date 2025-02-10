@@ -5,104 +5,72 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Curso de Programação em Python</title>
-  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 text-gray-900">
-  <!-- Header e Apresentação -->
-  <header class="bg-white shadow">
-    <div class="container mx-auto px-4 py-6">
-      <h1 class="text-3xl font-bold">Curso de Programação em Python</h1>
-      <p class="mt-2 text-lg">Transforme sua carreira aprendendo Python de forma rápida e eficiente!</p>
-    </div>
-  </header>
-  
-  <!-- Seção de Detalhamento -->
-  <section class="container mx-auto px-4 py-10">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div>
-        <h2 class="text-2xl font-bold mb-4">Por que aprender Python?</h2>
-        <ul class="list-disc list-inside">
-          <li>Conteúdo atualizado e prático;</li>
-          <li>Projetos reais e cases de sucesso;</li>
-          <li>Suporte e comunidade exclusiva;</li>
-          <li>Aulas dinâmicas e interativas.</li>
-        </ul>
-      </div>
-      <div>
-        <img src="https://via.placeholder.com/500x300" alt="Curso de Python" class="rounded shadow">
-      </div>
+<body class="bg-gray-50 text-gray-900">
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-20">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4">Domine Python e Revolucione Sua Carreira</h1>
+      <p class="text-xl mb-8">Curso de Programação em Python completo e atualizado, feito para transformar seu futuro profissional.</p>
+      <a href="connect.html" class="bg-white text-blue-600 font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-gray-100 transition duration-300">Conectar e Liberar Acesso</a>
     </div>
   </section>
 
-  <!-- Seção de Depoimentos -->
-  <section class="bg-white py-10">
+  <!-- Features Section -->
+  <section class="py-16">
     <div class="container mx-auto px-4">
-      <h2 class="text-2xl font-bold mb-6 text-center">O que dizem nossos alunos</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="p-4 bg-gray-50 rounded shadow">
-          <p>"Transformador! Aprendi Python de forma prática e objetiva."</p>
-          <p class="mt-2 font-bold">- João Silva</p>
+        <div class="bg-white p-8 rounded-lg shadow-md">
+          <h2 class="text-2xl font-bold mb-2">Conteúdo Exclusivo</h2>
+          <p>Aprenda do básico ao avançado com módulos práticos e objetivos.</p>
         </div>
-        <div class="p-4 bg-gray-50 rounded shadow">
-          <p>"O melhor investimento na minha carreira!"</p>
-          <p class="mt-2 font-bold">- Maria Oliveira</p>
+        <div class="bg-white p-8 rounded-lg shadow-md">
+          <h2 class="text-2xl font-bold mb-2">Flexibilidade</h2>
+          <p>Acesse o curso de qualquer lugar e no seu próprio ritmo.</p>
         </div>
-        <div class="p-4 bg-gray-50 rounded shadow">
-          <p>"A didática e o suporte fizeram toda a diferença."</p>
-          <p class="mt-2 font-bold">- Carlos Souza</p>
+        <div class="bg-white p-8 rounded-lg shadow-md">
+          <h2 class="text-2xl font-bold mb-2">Suporte Especializado</h2>
+          <p>Conte com o apoio de profissionais para tirar todas as suas dúvidas.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Seção de Inscrição -->
-  <section class="container mx-auto px-4 py-10">
-    <h2 class="text-2xl font-bold mb-4 text-center">Inscreva-se Agora</h2>
-    <form id="signupForm" class="max-w-lg mx-auto bg-white p-6 rounded shadow" onsubmit="event.preventDefault(); submitForm();">
-      <div class="mb-4">
-        <label class="block mb-2" for="name">Nome:</label>
-        <input class="w-full p-2 border rounded" type="text" id="name" name="name" required>
+  <!-- Testimonials Section -->
+  <section class="bg-gray-100 py-16">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold mb-8">O que Nossos Alunos Dizem</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+          <p>"Transformador! Este curso me abriu portas na carreira."</p>
+          <p class="mt-4 font-semibold">- João Silva</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+          <p>"A didática e o conteúdo realmente fazem a diferença."</p>
+          <p class="mt-4 font-semibold">- Maria Oliveira</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+          <p>"Recomendo a todos que querem entrar no mundo da programação!"</p>
+          <p class="mt-4 font-semibold">- Carlos Souza</p>
+        </div>
       </div>
-      <div class="mb-4">
-        <label class="block mb-2" for="email">E-mail:</label>
-        <input class="w-full p-2 border rounded" type="email" id="email" name="email" required>
-      </div>
-      <div class="mb-4">
-        <label class="block mb-2" for="phone">Telefone:</label>
-        <input class="w-full p-2 border rounded" type="text" id="phone" name="phone">
-      </div>
-      <button class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700" type="submit">Cadastrar</button>
-    </form>
+    </div>
   </section>
 
-  <!-- Link para Página de Administração -->
-  <footer class="container mx-auto px-4 py-6 text-center">
-    <a class="text-blue-600 hover:underline" href="admin.html">Acessar Painel Administrativo</a>
-  </footer>
+  <!-- CTA Section -->
+  <section class="py-16">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold mb-4">Pronto para Começar?</h2>
+      <p class="mb-8">Clique no botão abaixo, conecte-se e tenha acesso imediato aos nossos conteúdos exclusivos.</p>
+      <a href="connect.html" class="bg-blue-600 text-white px-8 py-4 rounded-full text-xl hover:bg-blue-700 transition duration-300">Conectar Agora</a>
+    </div>
+  </section>
 
-  <script>
-    function submitForm() {
-      const form = document.getElementById('signupForm');
-      const data = {
-        name: form.name.value,
-        email: form.email.value,
-        phone: form.phone.value
-      };
-      fetch('https://api.greb.com.br/functions/code_6c3713/create_user', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      })
-      .then(response => response.json())
-      .then(result => {
-        alert('Cadastro realizado com sucesso!');
-        form.reset();
-      })
-      .catch(error => {
-        console.error('Erro:', error);
-        alert('Houve um erro no cadastro.');
-      });
-    }
-  </script>
+  <footer class="bg-gray-800 text-gray-200 py-6">
+    <div class="container mx-auto px-4 text-center">
+      <p>&copy; 2023 - Curso de Programação em Python. Todos os direitos reservados.</p>
+    </div>
+  </footer>
 </body>
 </html>

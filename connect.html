@@ -17,14 +17,14 @@
       <h1 class="text-2xl font-bold mb-6 text-center">Conecte-se para Acessar o Conteúdo</h1>
       <!-- Step 1: Nome -->
       <div id="step1" class="step active">
-        <label class="block text-gray-700 mb-2" for="name">Seu Nome:</label>
+        <label class="block text-gray-700 mb-2 font-semibold" for="name">Seu Nome:</label>
         <input type="text" id="name" placeholder="Digite seu nome" class="w-full p-3 border rounded mb-4">
         <button onclick="nextStep()" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded">Continuar</button>
       </div>
       
       <!-- Step 2: Email -->
       <div id="step2" class="step">
-        <label class="block text-gray-700 mb-2" for="email">Seu Email:</label>
+        <label class="block text-gray-700 mb-2 font-semibold" for="email">Seu Email:</label>
         <input type="email" id="email" placeholder="seuemail@exemplo.com" class="w-full p-3 border rounded mb-4">
         <button onclick="submitForm()" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded">Liberar Acesso</button>
       </div>
@@ -32,7 +32,6 @@
   </div>
 
   <script>
-    // Se o usuário já estiver logado, direciona para dashboard
     window.onload = function() {
       const user = localStorage.getItem('user');
       if(user){
@@ -65,7 +64,6 @@
       })
       .then(response => response.json())
       .then(result => {
-        // Salva os dados do usuário no localStorage e redireciona para o dashboard
         localStorage.setItem('user', JSON.stringify({ name, email, id: result.user_id }));
         window.location.href = 'dashboard.html';
       })

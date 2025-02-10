@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curso de Programação em Python</title>
+  <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-900">
+  <!-- Header e Apresentação -->
+  <header class="bg-white shadow">
+    <div class="container mx-auto px-4 py-6">
+      <h1 class="text-3xl font-bold">Curso de Programação em Python</h1>
+      <p class="mt-2 text-lg">Transforme sua carreira aprendendo Python de forma rápida e eficiente!</p>
+    </div>
+  </header>
+  
+  <!-- Seção de Detalhamento -->
+  <section class="container mx-auto px-4 py-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div>
+        <h2 class="text-2xl font-bold mb-4">Por que aprender Python?</h2>
+        <ul class="list-disc list-inside">
+          <li>Conteúdo atualizado e prático;</li>
+          <li>Projetos reais e cases de sucesso;</li>
+          <li>Suporte e comunidade exclusiva;</li>
+          <li>Aulas dinâmicas e interativas.</li>
+        </ul>
+      </div>
+      <div>
+        <img src="https://via.placeholder.com/500x300" alt="Curso de Python" class="rounded shadow">
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção de Depoimentos -->
+  <section class="bg-white py-10">
+    <div class="container mx-auto px-4">
+      <h2 class="text-2xl font-bold mb-6 text-center">O que dizem nossos alunos</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="p-4 bg-gray-50 rounded shadow">
+          <p>"Transformador! Aprendi Python de forma prática e objetiva."</p>
+          <p class="mt-2 font-bold">- João Silva</p>
+        </div>
+        <div class="p-4 bg-gray-50 rounded shadow">
+          <p>"O melhor investimento na minha carreira!"</p>
+          <p class="mt-2 font-bold">- Maria Oliveira</p>
+        </div>
+        <div class="p-4 bg-gray-50 rounded shadow">
+          <p>"A didática e o suporte fizeram toda a diferença."</p>
+          <p class="mt-2 font-bold">- Carlos Souza</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção de Inscrição -->
+  <section class="container mx-auto px-4 py-10">
+    <h2 class="text-2xl font-bold mb-4 text-center">Inscreva-se Agora</h2>
+    <form id="signupForm" class="max-w-lg mx-auto bg-white p-6 rounded shadow" onsubmit="event.preventDefault(); submitForm();">
+      <div class="mb-4">
+        <label class="block mb-2" for="name">Nome:</label>
+        <input class="w-full p-2 border rounded" type="text" id="name" name="name" required>
+      </div>
+      <div class="mb-4">
+        <label class="block mb-2" for="email">E-mail:</label>
+        <input class="w-full p-2 border rounded" type="email" id="email" name="email" required>
+      </div>
+      <div class="mb-4">
+        <label class="block mb-2" for="phone">Telefone:</label>
+        <input class="w-full p-2 border rounded" type="text" id="phone" name="phone">
+      </div>
+      <button class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700" type="submit">Cadastrar</button>
+    </form>
+  </section>
+
+  <!-- Link para Página de Administração -->
+  <footer class="container mx-auto px-4 py-6 text-center">
+    <a class="text-blue-600 hover:underline" href="admin.html">Acessar Painel Administrativo</a>
+  </footer>
+
+  <script>
+    function submitForm() {
+      const form = document.getElementById('signupForm');
+      const data = {
+        name: form.name.value,
+        email: form.email.value,
+        phone: form.phone.value
+      };
+      fetch('https://api.greb.com.br/functions/code_6c3713/create_user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(result => {
+        alert('Cadastro realizado com sucesso!');
+        form.reset();
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+        alert('Houve um erro no cadastro.');
+      });
+    }
+  </script>
+</body>
+</html>
